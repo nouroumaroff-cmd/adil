@@ -1,0 +1,36 @@
+# ─── requirements.txt ─────────────────────────────────────────────────────────
+fastapi==0.115.0
+uvicorn==0.30.0
+pdfplumber==0.11.0
+openai==1.40.0
+anthropic==0.34.0
+supabase==2.7.0
+pydantic==2.8.0
+python-multipart==0.0.9
+
+
+# ─── render.yaml (déploiement Render) ─────────────────────────────────────────
+# Crée ce fichier à la racine de ton repo GitHub
+
+services:
+  - type: web
+    name: adil-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+
+
+# ─── .env (local uniquement, ne pas commit sur GitHub) ────────────────────────
+SUPABASE_URL=https://XXXX.supabase.co
+SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1...
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...
